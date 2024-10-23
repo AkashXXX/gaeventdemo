@@ -26,8 +26,28 @@
 
     <div class="container">
         <h1>Google Analytics Event Tracking Demo</h1>
-        <p>Click the button below to trigger a GA event via Google Tag Manager:</p>
-        <button id="demoButton" class="cta-button">Click Me!</button>
+        
+        <!-- Click Event Tracking -->
+        <p>Click the buttons below to trigger GA events via Google Tag Manager:</p>
+        <button id="demoButton1" class="cta-button">Click Button 1</button>
+        <button id="demoButton2" class="cta-button">Click Button 2</button>
+
+        <!-- Link Click Tracking -->
+        <p>Click the link below to track link clicks:</p>
+        <a href="https://www.google.com" target="_blank" id="demoLink">Visit Google</a>
+
+        <!-- Form Submission Tracking -->
+        <p>Fill out the form below and submit to track form submission events:</p>
+        <form id="demoForm">
+            <input type="text" id="name" placeholder="Enter your name" required>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <button type="submit" class="cta-button">Submit Form</button>
+        </form>
+
+        <!-- Image Click Tracking -->
+        <p>Click the image below to track image clicks:</p>
+        <img src="https://via.placeholder.com/300" alt="Demo Image" id="demoImage" />
+
     </div>
 
     <script src="script.js"></script>
