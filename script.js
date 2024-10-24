@@ -1,66 +1,89 @@
-// Wait for the DOM to fully load
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Select elements
-    const demoButton1 = document.getElementById('demoButton1');
-    const demoButton2 = document.getElementById('demoButton2');
-    const demoLink = document.getElementById('demoLink');
-    const demoForm = document.getElementById('demoForm');
-    const demoImage = document.getElementById('demoImage');
-    
-    // Button 1 Click Event
-    demoButton1.addEventListener('click', function() {
-        dataLayer.push({
-            'event': 'buttonClick',
-            'buttonId': 'demoButton1',
-            'buttonName': 'Button 1'
-        });
-        console.log('GA Event Triggered: buttonClick for Button 1');
-    });
+// Smooth Scroll for Navigation Links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
 
-    // Button 2 Click Event
-    demoButton2.addEventListener('click', function() {
-        dataLayer.push({
-            'event': 'buttonClick',
-            'buttonId': 'demoButton2',
-            'buttonName': 'Button 2'
+        const target = document.querySelector(this.getAttribute('href'));
+        target.scrollIntoView({
+            behavior: 'smooth'
         });
-        console.log('GA Event Triggered: buttonClick for Button 2');
     });
+});
 
-    // Link Click Event
-    demoLink.addEventListener('click', function() {
-        dataLayer.push({
-            'event': 'linkClick',
-            'linkId': 'demoLink',
-            'linkUrl': 'https://www.google.com'
-        });
-        console.log('GA Event Triggered: linkClick for Google');
-    });
+// Contact Form Validation
+const form = document.querySelector('form');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const messageInput = document.getElementById('message');
 
-    // Form Submission Event
-    demoForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form from actually submitting
-        dataLayer.push({
-            'event': 'formSubmit',
-            'formId': 'demoForm',
-            'formFields': {
-                'name': document.getElementById('name').value,
-                'email': document.getElementById('email').value
-            }
-        });
-        console.log('GA Event Triggered: formSubmit');
-        alert("Form Submitted!");
-    });
+// Function to show error message
+function showError(input, message) {
+    const formGroup = input.parentElement;
+    formGroup.classList.add('error');
+    const small = formGroup.querySelector('small');
+    if (small) {
+        small.textContent = message;
+    } else {
+        const errorText = document.createElement('small');
+        errorText.style.color = 'red';
+        errorText.textContent = message;
+        formGroup.appendChild(errorText);
+    }
+}
 
-    // Image Click Event
-    demoImage.addEventListener('click', function() {
-        dataLayer.push({
-            'event': 'imageClick',
-            'imageId': 'demoImage',
-            'imageAlt': 'Demo Image'
-        });
-        console.log('GA Event Triggered: imageClick');
-    });
+// Function to clear error message
+function clearError(input) {
+    const formGroup = input.parentElement;
+    formGroup.classList.remove('error');
+    const small = formGroup.querySelector('small');
+    if (small) {
+        formGroup.removeChild(small);
+    }
+}
 
+// Validate Email
+function validateEmail(email) {
+    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return re.test(String(email).toLowerCase());
+}
+
+// Validate Form
+function validateForm() {
+    let isValid = true;
+
+    if (nameInput.value.trim() === '') {
+        showError(nameInput, 'Name is required.');
+        isValid = false;
+    } else {
+        clearError(nameInput);
+    }
+
+    if (emailInput.value.trim() === '') {
+        showError(emailInput, 'Email is required.');
+        isValid = false;
+    } else if (!validateEmail(emailInput.value.trim())) {
+        showError(emailInput, 'Email is not valid.');
+        isValid = false;
+    } else {
+        clearError(emailInput);
+    }
+
+    if (messageInput.value.trim() === '') {
+        showError(messageInput, 'Message is required.');
+        isValid = false;
+    } else {
+        clearError(messageInput);
+    }
+
+    return isValid;
+}
+
+// Form Submit Event Listener
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    if (validateForm()) {
+        alert('Message sent successfully!');
+        form.reset();
+    }
 });
