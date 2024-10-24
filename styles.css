@@ -13,7 +13,6 @@ body {
 
 /* Header */
 header {
-    background-color: #333;
     color: #fff;
     padding: 10px 0;
     text-align: center;
@@ -41,6 +40,7 @@ nav ul li a {
 /* Hero Section */
 .hero {
     background-image: 'construction-hero.avif';
+    background-color: #333;
     background-size: cover;
     background-position: center;
     color: #fff;
